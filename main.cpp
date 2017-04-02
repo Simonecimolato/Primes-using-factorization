@@ -11,16 +11,21 @@
 #include <math.h>
 using namespace std;
 
-unsigned long primeCounter = 4;
-unsigned long sum = 17;
+unsigned long long primeCounter = 4;
+unsigned long long sum = 2;
+
+//set this as true to get the sum of all the primes found
+bool Sum = false;
+
 vector<long> primes;
 
-int isPrime(unsigned long number);
+int isPrime(unsigned long long number);
+long SumOfPrimes(bool choice);
 
 int main(int argc, const char * argv[]) {
     
-    //must be > 7
-    unsigned long lastOne = 0;
+    //must be > 8
+    unsigned long long lastOne = 0;
     cout<<"Last number to check: "<<endl;           //problems if i don't put endl at the end
     
     cin>>lastOne;
@@ -48,21 +53,35 @@ int main(int argc, const char * argv[]) {
     cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
     clock_t end = clock();
     double time = (double) (end-start) / CLOCKS_PER_SEC;
-    cout<<"Sum: "<<sum<<endl;
+    
+    //sumx
+    SumOfPrimes(Sum);
+    
     cout<<time<<" seconds."<<endl<<endl;
     return 0;
 }
 
-int isPrime(unsigned long number){
-    unsigned long max = ceil(sqrt(number));
-    for (unsigned long i = 0; primes[i] <= max; i++){
+int isPrime(unsigned long long number){
+    unsigned long long max = ceil(sqrt(number));
+    for (unsigned long long i = 0; primes[i] <= max; i++){
         if (number % primes[i] == 0) return 0;
     }
     primes.push_back(number);
     primeCounter++;
-    sum+=number;
     
-    //comment this out to have better performance
+    //comment this out to get better performance
     cout<<number<<", ";
     return 0;
     }
+
+//doing this to not slow the isPrime function down
+long SumOfPrimes(bool choice){
+    if (choice == true) {
+        for (int t = 0; t < primes.size(); t++) {
+            sum+=primes[t];
+        }
+        cout<<"Sum: "<<sum<<endl;
+        return 0;
+    }
+    return 1;
+}
