@@ -42,7 +42,7 @@ int main(int argc, const char * argv[]) {
     cout<<endl<<2<<", "<<3<<", "<<5<<", "<<7<<", ";
     
     /*
-     k starts from 8 because in the isPrime function i check
+     k starts from 9 because in the isPrime function i check
      if k is a multiple of 2,3,5,7 and if it is, then k is not prime, but 2,3,5,7 are actually primes, so if
      k was 2,3,5 or 7 then it wouldn't be counted as prime
      */
