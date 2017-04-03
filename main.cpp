@@ -12,12 +12,46 @@
 using namespace std;
 
 unsigned long long primeCounter = 4;
-unsigned long long sum = 2;
+__int128_t sum = 2;
 
 //set this as true to get the sum of all the primes found
 bool Sum = false;
 
 vector<long> primes;
+
+typedef __int128 int128_t;
+
+/*      UINT64_MAX 18446744073709551615ULL */
+#define P10_UINT64 10000000000000000000ULL   /* 19 zeroes */
+#define E10_UINT64 19
+
+#define STRINGIZER(x)   # x
+#define TO_STRING(x)    STRINGIZER(x)
+
+std::ostream&
+operator<<( std::ostream& dest, __int128_t value )
+{
+    std::ostream::sentry s( dest );
+    if ( s ) {
+        __uint128_t tmp = value < 0 ? -value : value;
+        char buffer[ 128 ];
+        char* d = std::end( buffer );
+        do{
+            -- d;
+            *d = "0123456789"[ tmp % 10 ];
+            tmp /= 10;
+        } while ( tmp != 0 );
+        if ( value < 0 ) {
+            -- d;
+            *d = '-';
+        }
+        int len = std::end( buffer ) - d;
+        if ( dest.rdbuf()->sputn( d, len ) != len ) {
+            dest.setstate( std::ios_base::badbit );
+        }
+    }
+    return dest;
+}
 
 int isPrime(unsigned long long number);
 long SumOfPrimes(bool choice);
@@ -53,11 +87,11 @@ int main(int argc, const char * argv[]) {
     cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
     clock_t end = clock();
     double time = (double) (end-start) / CLOCKS_PER_SEC;
-    
+    cout<<time<<" seconds to calculate the primes."<<endl<<endl;
+
     //sumx
     SumOfPrimes(Sum);
     
-    cout<<time<<" seconds."<<endl<<endl;
     return 0;
 }
 
@@ -76,11 +110,15 @@ int isPrime(unsigned long long number){
 
 //doing this to not slow the isPrime function down
 long SumOfPrimes(bool choice){
+    clock_t Bsum = clock();
     if (choice == true) {
         for (int t = 0; t < primes.size(); t++) {
             sum+=primes[t];
         }
         cout<<"Sum: "<<sum<<endl;
+        clock_t Esum = clock();
+        double timeSum = (double) (Esum-Bsum) / CLOCKS_PER_SEC;
+        cout<<timeSum<<" seconds to sum the primes."<<endl<<endl;
         return 0;
     }
     return 1;
