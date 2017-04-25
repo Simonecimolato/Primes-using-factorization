@@ -15,7 +15,7 @@ unsigned long long primeCounter = 4;
 __int128_t sum = 2;
 
 //set this as true to get the sum of all the primes found
-bool Sum = false;
+bool Sum = true;
 
 vector<long> primes;
 
@@ -45,7 +45,7 @@ operator<<( std::ostream& dest, __int128_t value )
             -- d;
             *d = '-';
         }
-        int len = std::end( buffer ) - d;
+        long len = std::end( buffer ) - d;
         if ( dest.rdbuf()->sputn( d, len ) != len ) {
             dest.setstate( std::ios_base::badbit );
         }
@@ -54,26 +54,44 @@ operator<<( std::ostream& dest, __int128_t value )
 }
 
 int isPrime(unsigned long long number);
-long SumOfPrimes(bool choice);
+long SumOfPrimes(vector<long> primes);
+void print(vector<long> primes);
 
 int main(int argc, const char * argv[]) {
     
     //must be > 8
     unsigned long long lastOne = 0;
-    cout<<"Last number to check: "<<endl;           //problems if i don't put endl at the end
-    
+    cout<<"Last number to check: ";           //problems if i don't put endl at the end
     cin>>lastOne;
     if (cin.fail() or lastOne < 9) {
-        cout<<"Must be an integer greater than 8."<<endl;
+        cout<<"Must be an integer number greater than 8."<<endl;
         return 1;
     }
+    
+    char ver;
+    cout<<"Sum (y/n): ";
+    cin >> ver;
+    switch (ver){
+        case('y'):
+            Sum = true;
+            cout<<endl;
+            break;
+        
+        case('n'):
+            Sum = false;
+            cout<<endl;
+            break;
+            
+        default:
+            cout<<"Must be y or n."<<endl;
+            return 1;
+    }
+
     primes.push_back(3);
     primes.push_back(5);
     primes.push_back(7);
 
     clock_t start = clock();
-    
-    cout<<endl<<2<<", "<<3<<", "<<5<<", "<<7<<", ";
     
     /*
      k starts from 9 because in the isPrime function i check
@@ -84,16 +102,22 @@ int main(int argc, const char * argv[]) {
     for (int k = 9; k <= lastOne; k+=2){
         isPrime(k);
     }
+    
+    //comment this out if you want pure performance
+    //printing
+    //print(primes);
+    
     cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
     clock_t end = clock();
     double time = (double) (end-start) / CLOCKS_PER_SEC;
     cout<<time<<" seconds to calculate the primes."<<endl<<endl;
 
-    //sumx
-    SumOfPrimes(Sum);
+    //sum
+    if (Sum == true)    SumOfPrimes(primes);
     
     return 0;
 }
+
 
 int isPrime(unsigned long long number){
     unsigned long long max = ceil(sqrt(number));
@@ -103,15 +127,12 @@ int isPrime(unsigned long long number){
     primes.push_back(number);
     primeCounter++;
     
-    //comment this out to get better performance
-    cout<<number<<", ";
     return 0;
     }
 
 //doing this to not slow the isPrime function down
-long SumOfPrimes(bool choice){
+long SumOfPrimes(vector<long> primes){
     clock_t Bsum = clock();
-    if (choice == true) {
         for (int t = 0; t < primes.size(); t++) {
             sum+=primes[t];
         }
@@ -120,6 +141,12 @@ long SumOfPrimes(bool choice){
         double timeSum = (double) (Esum-Bsum) / CLOCKS_PER_SEC;
         cout<<timeSum<<" seconds to sum the primes."<<endl<<endl;
         return 0;
+}
+
+//print function
+void print(vector<long> primes){
+    cout<<"2, ";
+    for (unsigned long long i = 0; i < primes.size(); i++){
+        cout<<primes[i]<<", ";
     }
-    return 1;
 }
