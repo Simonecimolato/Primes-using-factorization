@@ -15,7 +15,7 @@ unsigned long long primeCounter = 4;
 __int128_t sum = 2;
 
 //set this as true to get the sum of all the primes found
-bool Sum = true;
+bool Sum;
 
 vector<long> primes;
 
@@ -105,7 +105,7 @@ int main(int argc, const char * argv[]) {
     
     //comment this out if you want pure performance
     //printing
-    //print(primes);
+    print(primes);
     
     cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
     clock_t end = clock();
