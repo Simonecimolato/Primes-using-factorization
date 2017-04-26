@@ -11,13 +11,10 @@
 #include <math.h>
 using namespace std;
 
-unsigned long long primeCounter = 4;
-__int128_t sum = 2;
-
-//set this as true to get the sum of all the primes found
-bool Sum;
-
 vector<long> primes;
+__int128_t sum = 2;
+unsigned long long primeCounter = 4;
+bool Sum;
 
 typedef __int128 int128_t;
 
@@ -29,25 +26,24 @@ typedef __int128 int128_t;
 #define TO_STRING(x)    STRINGIZER(x)
 
 std::ostream&
-operator<<( std::ostream& dest, __int128_t value )
-{
-    std::ostream::sentry s( dest );
-    if ( s ) {
+operator<<(std::ostream& dest, __int128_t value){
+    std::ostream::sentry s(dest);
+    if (s){
         __uint128_t tmp = value < 0 ? -value : value;
-        char buffer[ 128 ];
-        char* d = std::end( buffer );
+        char buffer[128];
+        char* d = std::end(buffer);
         do{
             -- d;
-            *d = "0123456789"[ tmp % 10 ];
+            *d = "0123456789"[tmp % 10];
             tmp /= 10;
-        } while ( tmp != 0 );
-        if ( value < 0 ) {
+        } while (tmp != 0);
+        if (value < 0) {
             -- d;
             *d = '-';
         }
-        long len = std::end( buffer ) - d;
-        if ( dest.rdbuf()->sputn( d, len ) != len ) {
-            dest.setstate( std::ios_base::badbit );
+        long len = std::end(buffer) - d;
+        if (dest.rdbuf()->sputn(d, len) != len) {
+            dest.setstate(std::ios_base::badbit);
         }
     }
     return dest;
@@ -61,8 +57,9 @@ int main(int argc, const char * argv[]) {
     
     //must be > 8
     unsigned long long lastOne = 0;
-    cout<<"Last number to check: ";           //problems if i don't put endl at the end
+    cout<<"Last number to check: ";
     cin>>lastOne;
+    
     if (cin.fail() or lastOne < 9) {
         cout<<"Must be an integer number greater than 8."<<endl;
         return 1;
@@ -71,6 +68,7 @@ int main(int argc, const char * argv[]) {
     char ver;
     cout<<"Sum (y/n): ";
     cin >> ver;
+    
     switch (ver){
         case('y'):
             Sum = true;
@@ -103,13 +101,13 @@ int main(int argc, const char * argv[]) {
         isPrime(k);
     }
     
-    //comment this out if you want pure performance
+    clock_t end = clock();
+    double time = (double) (end-start) / CLOCKS_PER_SEC;
+    
     //printing
     print(primes);
     
     cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
-    clock_t end = clock();
-    double time = (double) (end-start) / CLOCKS_PER_SEC;
     cout<<time<<" seconds to calculate the primes."<<endl<<endl;
 
     //sum
@@ -120,27 +118,30 @@ int main(int argc, const char * argv[]) {
 
 
 int isPrime(unsigned long long number){
+    //square root
     unsigned long long max = ceil(sqrt(number));
     for (unsigned long long i = 0; primes[i] <= max; i++){
-        if (number % primes[i] == 0) return 0;
+        if (number % primes[i] == 0) return 0;  //not prime
     }
+    
+    //prime
     primes.push_back(number);
     primeCounter++;
     
     return 0;
-    }
+}
 
-//doing this to not slow the isPrime function down
 long SumOfPrimes(vector<long> primes){
     clock_t Bsum = clock();
-        for (int t = 0; t < primes.size(); t++) {
-            sum+=primes[t];
-        }
-        cout<<"Sum: "<<sum<<endl;
-        clock_t Esum = clock();
-        double timeSum = (double) (Esum-Bsum) / CLOCKS_PER_SEC;
-        cout<<timeSum<<" seconds to sum the primes."<<endl<<endl;
-        return 0;
+    for (int t = 0; t < primes.size(); t++) {
+        sum+=primes[t];
+    }
+    
+    clock_t Esum = clock();
+    double timeSum = (double) (Esum-Bsum) / CLOCKS_PER_SEC;
+    cout<<"Sum: "<<sum<<endl;
+    cout<<timeSum<<" seconds to sum the primes."<<endl<<endl;
+    return 0;
 }
 
 //print function
