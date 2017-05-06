@@ -13,7 +13,7 @@ using namespace std;
 
 vector<long> primes;
 __int128_t sum = 2;
-unsigned long long primeCounter = 4;
+unsigned long long counter = 4;
 bool Sum;
 
 typedef __int128 int128_t;
@@ -65,26 +65,12 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
     
-    char ver;
-    cout<<"Sum (y/n): ";
-    cin >> ver;
+    //Here i'm using the Prime Number Theorem
+    cout<<endl<<"About "<<(1/log(lastOne))*100<<"% of numbers less than "<<lastOne<<" are prime."<<endl
+        <<"There are about: "<<round(lastOne/log(lastOne))<<" primes between 0 and "<<lastOne<<endl
+        <<"Average gap between prime numbers: "<<log(lastOne)<<endl
+        <<"Computing..."<<endl<<endl;
     
-    switch (ver){
-        case('y'):
-            Sum = true;
-            cout<<endl;
-            break;
-        
-        case('n'):
-            Sum = false;
-            cout<<endl;
-            break;
-            
-        default:
-            cout<<"Must be y or n."<<endl;
-            return 1;
-    }
-
     primes.push_back(3);
     primes.push_back(5);
     primes.push_back(7);
@@ -106,12 +92,15 @@ int main(int argc, const char * argv[]) {
     
     //printing
     print(primes);
-    
-    cout<<endl<<endl<<"Primes: "<<primeCounter<<endl;
-    cout<<time<<" seconds to calculate the primes."<<endl<<endl;
+        
+    cout<<endl<<endl<<"Initial estimate of the number of primes: "<<round(lastOne/log(lastOne))<<endl
+        <<"Real number of primes: "<<counter<<endl
+        <<time<<" seconds to calculate the primes."<<endl<<endl
+        <<"Initial estimate of primes less than "<<lastOne<<": "<<(1/log(lastOne))*100<<"%"<<endl
+        <<"Real percentage: "<<(counter/lastOne)*100<<"%"<<endl<<endl;                          //counter rimane a 0, strano  PROBLEMS!!!!
 
     //sum
-    if (Sum == true)    SumOfPrimes(primes);
+    SumOfPrimes(primes);
     
     return 0;
 }
@@ -126,7 +115,7 @@ int isPrime(unsigned long long number){
     
     //prime
     primes.push_back(number);
-    primeCounter++;
+    counter++;
     
     return 0;
 }
@@ -139,8 +128,8 @@ long SumOfPrimes(vector<long> primes){
     
     clock_t Esum = clock();
     double timeSum = (double) (Esum-Bsum) / CLOCKS_PER_SEC;
-    cout<<"Sum: "<<sum<<endl;
-    cout<<timeSum<<" seconds to sum the primes."<<endl<<endl;
+    cout<<"Sum of all primes: "<<sum<<endl
+        <<timeSum<<" seconds to sum the primes."<<endl<<endl;
     return 0;
 }
 
