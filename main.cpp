@@ -91,7 +91,7 @@ int main(int argc, const char * argv[]) {
     double time = (double) (end-start) / CLOCKS_PER_SEC;
     
     //printing
-    //print(primes);
+    print(primes);
         
     cout<<endl<<endl<<"Initial estimate of the percentage of prime numbers: "<<round(lastOne/log(lastOne))<<endl
         <<"Real number of primes: "<<counter<<endl
