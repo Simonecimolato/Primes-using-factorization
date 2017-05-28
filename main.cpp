@@ -68,7 +68,7 @@ int main(int argc, const char * argv[]) {
     //Here i'm using the Prime Number Theorem
     cout<<endl<<"About "<<(1/log(lastOne))*100<<"% of numbers less than "<<lastOne<<" are prime."<<endl
         <<"There are about: "<<round(lastOne/log(lastOne))<<" primes between 0 and "<<lastOne<<endl
-        <<"Average gap between prime numbers: "<<log(lastOne)<<endl
+        <<"Estimated average gap between prime numbers: "<<log(lastOne)<<endl
         <<"Computing..."<<endl<<endl;
     
     primes.push_back(3);
@@ -91,13 +91,13 @@ int main(int argc, const char * argv[]) {
     double time = (double) (end-start) / CLOCKS_PER_SEC;
     
     //printing
-    print(primes);
+    //print(primes);
         
-    cout<<endl<<endl<<"Initial estimate of the number of primes: "<<round(lastOne/log(lastOne))<<endl
+    cout<<endl<<endl<<"Initial estimate of the percentage of prime numbers: "<<round(lastOne/log(lastOne))<<endl
         <<"Real number of primes: "<<counter<<endl
         <<time<<" seconds to calculate the primes."<<endl<<endl
         <<"Initial estimate of primes less than "<<lastOne<<": "<<(1/log(lastOne))*100<<"%"<<endl
-        <<"Real percentage: "<<(counter/lastOne)*100<<"%"<<endl<<endl;                          //counter rimane a 0, strano  PROBLEMS!!!!
+        <<"Real percentage: "<<((double)counter/(double)lastOne)*100.0<<"%"<<endl<<endl;                          //counter rimane a 0, strano  PROBLEMS!!!!
 
     //sum
     SumOfPrimes(primes);
