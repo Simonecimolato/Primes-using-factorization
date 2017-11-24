@@ -14,7 +14,6 @@ using namespace std;
 vector<long> primes;
 __int128_t sum = 2;
 unsigned long long counter = 4;
-bool Sum;
 
 typedef __int128 int128_t;
 
